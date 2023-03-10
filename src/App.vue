@@ -11,10 +11,16 @@
 </template>
 <script>
 import { FadeTransition } from "vue2-transitions";
+import Vue from 'vue'
+import Vuetify from './plugins/vuetify'
+
+Vue.use(Vuetify)
 
 export default {
-  components: {
-    FadeTransition
-  }
-};
+    name: 'App',
+    components: {
+        FadeTransition
+    }
+}
+
 </script>
