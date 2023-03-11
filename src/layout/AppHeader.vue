@@ -94,7 +94,7 @@
                 <span class="btn-inner--icon">
                   <i class="fa fa-user-circle-o mr-2"></i>
                 </span>
-                        <span class="nav-link-inner--text">Sign In</span>
+                        <span class="nav-link-inner--text">Anmelden</span>
                     </a>
                 </li>
             </ul>

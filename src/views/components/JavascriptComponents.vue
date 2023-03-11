@@ -44,10 +44,6 @@
                 <span slot="text"><strong>Warning!</strong> This is a warning alert—check it out!</span>
             </base-alert>
 
-            <base-alert type="danger" icon="ni ni-support-16" dismissible>
-                <span slot="text"><strong>Danger!</strong> This is an error alert—check it out!</span>
-            </base-alert>
-
             <typography></typography>
             <!-- Images -->
             <h2 class="mt-lg mb-5">

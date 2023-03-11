@@ -18,11 +18,11 @@
                     <div class="col px-0">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h1 class="display-3  text-white">Parken Sie clever, nicht teuer
-                                    <span>Der Parkplatz-Marktplatz, der Ihr Leben einfacher macht</span>
+                                <h1 class="display-3  text-white">A beautiful Design System
+                                    <span>completed with examples</span>
                                 </h1>
                                 <p class="lead  text-white">The design system comes with four pre-built pages to help
-                                    you get started faster. You canchange the text and images and you're good to
+                                    you get started faster. You can change the text and images and you're good to
                                     go.</p>
                                 <div class="btn-wrapper">
                                     <base-button tag="a"
@@ -501,7 +501,6 @@
 
 <script>
 export default {
-  name: "home",
   components: {}
 };
 </script>

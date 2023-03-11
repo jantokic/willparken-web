@@ -49,12 +49,17 @@ export default {
     dismissible: {
       type: Boolean,
       default: false,
-      description: "Whether alert is closes when clicking"
+      description: "Whether alert is closed when clicking"
+    },
+    visbility: {
+      type: Boolean,
+      default: false,
+      description: "Whether alert is visible"
     }
   },
   data() {
     return {
-      visible: true
+      visible: this.visbility
     };
   },
   methods: {

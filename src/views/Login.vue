@@ -20,7 +20,7 @@
             body-classes="px-lg-5 py-lg-5"
             class="border-0"
           >
-            <template>
+            <!-- <template>
               <div class="text-muted text-center mb-3">
                 <small>Sign in with</small>
               </div>
@@ -35,10 +35,10 @@
                   Google
                 </base-button>
               </div>
-            </template>
+            </template> -->
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
+                <small>Sign in with credentials</small>
               </div>
               <form role="form">
                 <base-input
@@ -47,6 +47,9 @@
                   placeholder="Username"
                   addon-left-icon="ni ni-hat-3"
                   v-model="username"
+                  :error="usernameError"
+                  :valid="usernameValid"
+                  :required="true"
                 >
                 </base-input>
                 <base-input
@@ -63,9 +66,13 @@
                 </base-checkbox>
                 <div class="text-center">
                   <base-button type="primary" class="my-4" @click="loginUser"
-                    >Sign In</base-button>
+                    >Sign In</base-button
+                  >
                 </div>
               </form>
+              <base-alert :visbility="true" :type="alert.type">
+                {{ alert.text }}
+              </base-alert>
             </template>
           </card>
           <div class="row mt-3">
@@ -75,7 +82,7 @@
               </a>
             </div>
             <div class="col-6 text-right">
-              <a href="#" class="text-light">
+              <a href="#/register" class="text-light">
                 <small>Create new account</small>
               </a>
             </div>
@@ -87,23 +94,32 @@
 </template>
 <script>
 import axios from "axios";
+import sha256 from "js-sha256";
 
 export default {
   data() {
     return {
       username: "",
       password: "",
+      alert: {
+        visible: false,
+        text: "",
+        type: "",
+      },
+      usernameValid: undefined,
+      usernameError: "",
     };
   },
   methods: {
     loginUser() {
+      const hashedPassword = sha256(this.password);
       axios.headerClasses = {
         "Content-Type": "application/json",
       };
       axios
         .post("http://localhost:3000/users/login", {
           u_username: this.username,
-          u_password: this.password,
+          u_password: hashedPassword,
         })
         .then((response) => {
           // handle success
@@ -115,6 +131,32 @@ export default {
         .catch((error) => {
           // handle error
           console.log(error);
+
+          if (error.response.status === 400) {
+            if (error.response.data.message === "Wrong username or password.") {
+              this.usernameValid = false;
+              this.usernameError = "Wrong username or password.";
+              this.alert.visible = false;
+            } else {
+              console.log("An error occurred. Please try again later.");
+              this.alert.visible = true;
+              this.alert.text =
+                "Error - An error occurred. Please try again later.";
+              this.alert.type = "danger";
+              this.usernameValid = undefined;
+            }
+          }
+          else if(error.response.status === 409){
+            this.usernameValid = false;
+            this.usernameError = "User already logged in.";
+          }
+          else{
+            this.alert.visible = true;
+            this.alert.text =
+              "Error - An error occurred. Please try again later.";
+            this.alert.type = "danger";
+            this.usernameValid = undefined;
+          }
         });
     },
   },
