@@ -36,9 +36,12 @@ export default new Router({
       path: "/dashboard",
       name: "dashboard",
       components: {
-        header: AppHeader,
-        default: Landing,
+        // header: AppHeader,
+        default: Dashboard,
         footer: AppFooter
+      },
+      props: {
+        header: true // enable passing props to header component
       }
     },
     {

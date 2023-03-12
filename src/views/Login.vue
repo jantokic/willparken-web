@@ -117,16 +117,21 @@ export default {
         "Content-Type": "application/json",
       };
       axios
-        .post("http://localhost:3000/users/login", {
-          u_username: this.username,
-          u_password: hashedPassword,
-        })
+        .post(
+          "http://localhost:3000/users/login",
+          {
+            u_username: this.username,
+            u_password: hashedPassword,
+          },
+          { withCredentials: true }
+        )
+
         .then((response) => {
           // handle success
           console.log(response);
 
           // Redirect to dashboard page
-          this.$router.push({ name: "landing" });
+          this.$router.push({ name: "dashboard" });
         })
         .catch((error) => {
           // handle error
@@ -135,25 +140,22 @@ export default {
           if (error.response.status === 400) {
             if (error.response.data.message === "Wrong username or password.") {
               this.usernameValid = false;
-              this.usernameError = "Wrong username or password.";
+              this.usernameError = "Benutzer oder Passwort falsch.";
               this.alert.visible = false;
             } else {
-              console.log("An error occurred. Please try again later.");
               this.alert.visible = true;
               this.alert.text =
-                "Error - An error occurred. Please try again later.";
+                "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
               this.alert.type = "danger";
               this.usernameValid = undefined;
             }
-          }
-          else if(error.response.status === 409){
+          } else if (error.response.status === 409) {
             this.usernameValid = false;
-            this.usernameError = "User already logged in.";
-          }
-          else{
+            this.usernameError = "Benutzer ist bereits angemeldet.";
+          } else {
             this.alert.visible = true;
             this.alert.text =
-              "Error - An error occurred. Please try again later.";
+              "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut..";
             this.alert.type = "danger";
             this.usernameValid = undefined;
           }

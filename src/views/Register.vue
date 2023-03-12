@@ -153,19 +153,23 @@ export default {
         "Content-Type": "application/json",
       };
       axios
-        .post("http://localhost:3000/users/register", {
-          u_username: this.username,
-          u_email: this.email,
-          u_password: hashedPassword,
-          u_firstname: this.firstName,
-          u_lastname: this.lastName,
-        })
+        .post(
+          "http://localhost:3000/users/register",
+          {
+            u_username: this.username,
+            u_email: this.email,
+            u_password: hashedPassword,
+            u_firstname: this.firstName,
+            u_lastname: this.lastName,
+          },
+          { withCredentials: true }
+        )
         .then((response) => {
           // handle success
           console.log(response);
 
           // Redirect to dashboard page
-          this.$router.push({ name: "landing" });
+          this.$router.push({ name: "dashboard" });
         })
         .catch((error) => {
           // handle error
@@ -174,20 +178,19 @@ export default {
           if (error.response.status === 400) {
             if (error.response.data.message === "Username already exists.") {
               this.usernameValid = false;
-              this.usernameError = "Username already exists.";
+              this.usernameError = "Benutzername bereits vergeben.";
               this.alert.visible = false;
             } else {
               this.alert.visible = true;
               this.alert.text =
-                "Error - An error occurred. Please try again later.";
+                "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
               this.alert.type = "danger";
               this.usernameValid = undefined;
             }
-          }
-          else{
+          } else {
             this.alert.visible = true;
             this.alert.text =
-              "Error - An error occurred. Please try again later.";
+              "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
             this.alert.type = "danger";
             this.usernameValid = undefined;
           }

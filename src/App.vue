@@ -13,8 +13,13 @@
 import { FadeTransition } from "vue2-transitions";
 import Vue from 'vue'
 import Vuetify from './plugins/vuetify'
+import VueCookie from 'vue-cookie'
+import AppHeader from './layout/AppHeader.vue'
 
+Vue.component('app-header', AppHeader)
 Vue.use(Vuetify)
+Vue.use(VueCookie)
+
 
 export default {
     name: 'App',
