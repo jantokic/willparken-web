@@ -57,7 +57,12 @@
               <div class="row row-grid">
                 <div class="col-lg-4 ">
                   <card class="border-0" hover shadow body-classes="py-5">
-                    <icon name="fa fa-parking" type="primary" rounded class="mb-4">
+                    <icon
+                      name="fa fa-parking"
+                      type="primary"
+                      rounded
+                      class="mb-4"
+                    >
                     </icon>
                     <h6 class="text-primary text-uppercase">
                       Parkplätze ({{ parkingSpots.length }})
@@ -67,20 +72,23 @@
                     </p>
                     <div v-if="parkingSpots.length > 0">
                       <p class="card-text">
+                        <i class="fa fa-location-dot" style="margin-right: 9px;"></i>
                         {{ parkingSpots[0].pa_address.a_street }}
                         {{ parkingSpots[0].pa_address.a_houseno }},
                         {{ parkingSpots[0].pa_address.a_zip }}
                         {{ parkingSpots[0].pa_address.a_city }}
                       </p>
                       <p class="card-text">
-                        {{ parkingSpots[0].p_priceperhour }}€/hour
+                        <i class= "fa fa-money-bill-wave" style="margin-right:2px;"></i>
+                        {{ parkingSpots[0].p_priceperhour }}€ pro Stunde
                       </p>
                       <div class="d-flex justify-content-between">
                         <div>
+                          <i class="fa fa-tag" style="margin-right: 10px;"></i>
                           <span
                             v-for="(tag, index) in parkingSpots[0].p_tags"
                             :key="index"
-                            class="badge badge-success rounded-pill"
+                            class="badge badge-primary rounded-pill"
                             >{{ tag }}</span
                           >
                         </div>
@@ -100,7 +108,7 @@
                     </div>
                   </card>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 ">
                   <card class="border-0" hover shadow body-classes="py-5">
                     <icon
                       name="fa fa-car"
@@ -109,41 +117,108 @@
                       class="mb-4"
                     >
                     </icon>
-                    <h6 class="text-success text-uppercase">Autos</h6>
+                    <h6 class="text-success text-uppercase">
+                      Autos ({{ cars.length }})
+                    </h6>
                     <p class="description mt-3">
-                      Hier sehen sie Ihre aktuellen Autos:
+                      Hier sehen sie Ihre Autos:
                     </p>
-                    <div>
-                      <badge type="success" rounded>business</badge>
-                      <badge type="success" rounded>vision</badge>
-                      <badge type="success" rounded>success</badge>
+                    <div v-if="cars.length > 0">
+                      <p class="card-text">
+                        <i class="fa fa-car-on"  style="margin-right: 5px;"></i>
+                        {{cars[0].c_brand }} {{ cars[0].c_model }}
+                      </p>
+                      <p class="card-text">
+                        <i class="fa-solid fa-address-card"  style="margin-right: 5px;"></i>
+                        {{ cars[0].c_licenceplate }}
+                      </p>
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <span
+                            v-if="cars[0].c_isreserved == true"
+                            class="badge badge-success rounded-pill"
+                            >{{ "Wird benutzt" }}</span>
+                            <span v-else class="badge badge-danger rounded-pill"
+                            >{{ "Wird nicht benutzt" }}</span
+                          >
+                        </div>
+                      </div>
+                      <base-button tag="a" href="#" type="primary" class="mt-4">
+                        Mehr Anzeigen
+                      </base-button>
                     </div>
-                    <base-button tag="a" href="#" type="success" class="mt-4">
-                      Mehr Anzeigen
-                    </base-button>
+                    <div v-else>
+                      <p>
+                        Sie haben noch keine Autos hinzugefügt. Fangen Sie
+                        jetzt an!
+                      </p>
+                      <base-button tag="a" href="#" type="primary" class="mt-4">
+                        Auto hinzufügen
+                      </base-button>
+                    </div>
                   </card>
                 </div>
                 <div class="col-lg-4">
                   <card class="border-0" hover shadow body-classes="py-5">
-                    <icon
-                      name="fa fa-bell"
-                      type="warning"
-                      rounded
-                      class="mb-4"
-                    >
+                    <icon name="fa fa-bell" type="warning" rounded class="mb-4">
                     </icon>
-                    <h6 class="text-warning text-uppercase">Reservierungen</h6>
-                    <p class="description mt-3">
-                      Hier sehen sie Ihre offen Reservierungen:
-                    </p>
-                    <div>
-                      <badge type="warning" rounded>marketing</badge>
-                      <badge type="warning" rounded>product</badge>
-                      <badge type="warning" rounded>launch</badge>
+                    <h6 class="text-warning text-uppercase">
+                      Reservierungen ({{ reservations.length }})
+                    </h6>
+                    <div v-if="reservations.length > 0">
+                      <p class="description mt-3">
+                        Hier sind ihre offen Reservierungen:
+                      </p>
+                      <p class="card-text">
+                        <i class = "fa fa-car-on" style = "margin-right: 5px;"></i>
+                        {{ getCar(reservations[0].r_carid).c_brand }}
+                        {{ getCar(reservations[0].r_carid).c_model }}
+                      </p>
+                      <p class="card-text">
+                        <i class = "fa-solid fa-calendar-days" style = "margin-right: 5px;"></i>
+                        {{
+                          formatDate(
+                            reservations[0].rt_timeframe
+                              .t_dayfrom
+                          )
+                        }}
+                        -
+                        {{
+                          formatDate(
+                            reservations[0].rt_timeframe
+                              .t_dayuntil
+                          )
+                        }}
+                      </p>
+                      <p class="card-text">
+                        <i class = "fa-solid fa-clock" style = "margin-right: 5px;"></i>
+                        {{
+                          formatTime(
+                            reservations[0].rt_timeframe
+                              .t_timefrom
+                          )
+                        }}
+                        -
+                        {{
+                          formatTime(
+                            reservations[0].rt_timeframe
+                              .t_timeuntil
+                          )
+                        }}
+                      </p>
+                      <base-button tag="a" href="#" type="warning" class="mt-4">
+                        Mehr Anzeigen
+                      </base-button>
                     </div>
-                    <base-button tag="a" href="#" type="warning" class="mt-4">
-                      Mehr Anzeigen
-                    </base-button>
+                    <div v-else>
+                      <p>
+                        Sie haben zurzeit keinen Parpklatz reserviert. Fangen
+                        Sie jetzt an!
+                      </p>
+                      <base-button tag="a" href="#" type="warning" class="mt-4">
+                        Parkplatz reservieren
+                      </base-button>
+                    </div>
                   </card>
                 </div>
               </div>
@@ -173,6 +248,7 @@
 
 <script>
 import { api } from "../apiRequest.js";
+import moment from 'moment';
 
 export default {
   data() {
@@ -182,12 +258,14 @@ export default {
       dataFromDashboard: null,
       parkingSpots: [],
       reservations: [],
+      cars: [],
     };
   },
   created() {
     this.getUser();
     this.getUserParkingSpots();
     this.getUserReservations();
+    this.getUserCars();
   },
   methods: {
     async getUser() {
@@ -216,10 +294,32 @@ export default {
       await api("http://localhost:3000/parkingspots/getReservations")
         .then((response) => {
           this.reservations = response.data.content;
+          console.log(this.reservations[0].rt_timeframe);
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    async getUserCars() {
+      await api("http://localhost:3000/users/getCars")
+        .then((response) => {
+          this.cars = response.data.content;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    formatTime(time) {
+      return moment()
+        .startOf("day")
+        .add(time, "minutes")
+        .format("HH:mm");
+    },
+    formatDate(date) {
+      return moment(date.toString(), "YYYYMMDD").format("DD.MM.YYYY");
+    },
+    getCar(carId) {
+      return this.cars.find((car) => car.c_id === carId);
     },
   },
 };
