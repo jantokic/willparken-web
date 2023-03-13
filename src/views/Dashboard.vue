@@ -65,36 +65,78 @@
                     >
                     </icon>
                     <h6 class="text-primary text-uppercase">
-                      Parkplätze ({{ parkingSpots.length }})
+                      Parkplätze ({{ activeParkingSpots.length }})
                     </h6>
                     <p class="description mt-3">
-                      Hier sehen sie Ihre aktuellen Parkplätze:
+                      Ihr begehrtester Parkplatz:
                     </p>
-                    <div v-if="parkingSpots.length > 0">
+                    <div v-if="activeParkingSpots.length > 0">
                       <p class="card-text">
-                        <i class="fa fa-location-dot" style="margin-right: 9px;"></i>
-                        {{ parkingSpots[0].pa_address.a_street }}
-                        {{ parkingSpots[0].pa_address.a_houseno }},
-                        {{ parkingSpots[0].pa_address.a_zip }}
-                        {{ parkingSpots[0].pa_address.a_city }}
+                        <i
+                          class="fa fa-location-dot"
+                          style="margin-right: 10px; color:#007bff;"
+                        ></i>
+                        {{ activeParkingSpots[0].pa_address.a_street }}
+                        {{ activeParkingSpots[0].pa_address.a_houseno }},
+                        {{ activeParkingSpots[0].pa_address.a_city }}
+                        <span v-if="activeParkingSpots[0].p_number"
+                          ><strong style="color:#007bff;"
+                            >({{ activeParkingSpots[0].p_number }})</strong
+                          ></span
+                        >
                       </p>
                       <p class="card-text">
-                        <i class= "fa fa-money-bill-wave" style="margin-right:2px;"></i>
-                        {{ parkingSpots[0].p_priceperhour }}€ pro Stunde
+                        <i
+                          class="fa fa-money-bill-wave"
+                          style="margin-right:3px;color:#007bff;"
+                        ></i>
+                        {{ activeParkingSpots[0].p_priceperhour }}€ pro Stunde
                       </p>
-                      <div class="d-flex justify-content-between">
+                      <div
+                        v-if="activeParkingSpots[0].p_tags.length > 0"
+                        class="d-flex justify-content-between"
+                      >
                         <div>
-                          <i class="fa fa-tag" style="margin-right: 10px;"></i>
+                          <i
+                            class="fa fa-tag"
+                            style="margin-right: 10px;color:#007bff;"
+                          ></i>
                           <span
-                            v-for="(tag, index) in parkingSpots[0].p_tags"
+                            v-for="(tag, index) in activeParkingSpots[0].p_tags"
                             :key="index"
                             class="badge badge-primary rounded-pill"
                             >{{ tag }}</span
                           >
                         </div>
                       </div>
+                      <p></p>
+                      <p class="card-text">
+                        <i
+                          class="fa fa-bell"
+                          style="margin-right: 10px;color:#007bff;"
+                        ></i>
+                        <span
+                          v-if="
+                            activeParkingSpots[0].pr_reservations.length > 0 &&
+                              activeParkingSpots[0].pr_reservations.some(
+                                (res) => !res.r_cancelled
+                              )
+                          "
+                          class="badge badge-info badge-pill"
+                        >
+                          {{
+                            activeParkingSpots[0].pr_reservations.filter(
+                              (res) => !res.r_cancelled
+                            ).length
+                          }}
+                          Offene Reservierungen
+                        </span>
+                        <span v-else class="badge badge-danger badge-pill">
+                          Keine offenen Reservierungen
+                        </span>
+                      </p>
                       <base-button tag="a" href="#" type="primary" class="mt-4">
-                        Mehr Anzeigen
+                        Alle Anzeigen
                       </base-button>
                     </div>
                     <div v-else>
@@ -110,49 +152,64 @@
                 </div>
                 <div class="col-lg-4 ">
                   <card class="border-0" hover shadow body-classes="py-5">
-                    <icon
-                      name="fa fa-car"
-                      type="success"
-                      rounded
-                      class="mb-4"
-                    >
+                    <icon name="fa fa-car" type="success" rounded class="mb-4">
                     </icon>
                     <h6 class="text-success text-uppercase">
                       Autos ({{ cars.length }})
                     </h6>
                     <p class="description mt-3">
-                      Hier sehen sie Ihre Autos:
+                      Ihr Lieblingsauto:
                     </p>
                     <div v-if="cars.length > 0">
                       <p class="card-text">
-                        <i class="fa fa-car-on"  style="margin-right: 5px;"></i>
-                        {{cars[0].c_brand }} {{ cars[0].c_model }}
+                        <i
+                          class="fa fa-car-on"
+                          style="margin-right: 10px; color:#28a745;"
+                        ></i>
+                        {{ cars[0].c_brand }} {{ cars[0].c_model }}
                       </p>
                       <p class="card-text">
-                        <i class="fa-solid fa-address-card"  style="margin-right: 5px;"></i>
+                        <i
+                          class="fa-solid fa-address-card"
+                          style="margin-right: 10px; color:#28a745;"
+                        ></i>
                         {{ cars[0].c_licenceplate }}
                       </p>
                       <div class="d-flex justify-content-between">
                         <div>
-                          <span
-                            v-if="cars[0].c_isreserved == true"
-                            class="badge badge-success rounded-pill"
-                            >{{ "Wird benutzt" }}</span>
-                            <span v-else class="badge badge-danger rounded-pill"
-                            >{{ "Wird nicht benutzt" }}</span
-                          >
+                          <p class="card-text">
+                            <i
+                              class="fa fa-bell"
+                              style="margin-right: 10px;color:#28a745;"
+                            ></i>
+                            <span
+                              v-if="cars[0].c_isreserved"
+                              class="badge badge-success badge-pill"
+                              >Für {{
+                                activeReservations.filter(
+                                  (res) => res.rc_car === cars[0]._id
+                                ).length
+                              }}
+                              Reservierungen benutzt
+                            </span>
+                            <span
+                              v-else
+                              class="badge badge-warning badge-pill"
+                              >{{ "Wird nicht benutzt" }}</span
+                            >
+                          </p>
                         </div>
                       </div>
-                      <base-button tag="a" href="#" type="primary" class="mt-4">
-                        Mehr Anzeigen
+                      <base-button tag="a" href="#" type="success" class="mt-4">
+                        Alle Anzeigen
                       </base-button>
                     </div>
                     <div v-else>
                       <p>
-                        Sie haben noch keine Autos hinzugefügt. Fangen Sie
-                        jetzt an!
+                        Sie haben noch keine Autos hinzugefügt. Fangen Sie jetzt
+                        an!
                       </p>
-                      <base-button tag="a" href="#" type="primary" class="mt-4">
+                      <base-button tag="a" href="#" type="success" class="mt-4">
                         Auto hinzufügen
                       </base-button>
                     </div>
@@ -163,51 +220,66 @@
                     <icon name="fa fa-bell" type="warning" rounded class="mb-4">
                     </icon>
                     <h6 class="text-warning text-uppercase">
-                      Reservierungen ({{ reservations.length }})
+                      Reservierungen ({{ activeReservations.length }})
                     </h6>
-                    <div v-if="reservations.length > 0">
-                      <p class="description mt-3">
-                        Hier sind ihre offen Reservierungen:
+                    <p class="description mt-3">
+                      Ihre nächste Reservierung:
+                    </p>
+                    <div v-if="activeReservations.length > 0">
+                      <p class="card-text">
+                        <i
+                          class="fa fa-car-on"
+                          style="margin-right: 10px;color:orangered;"
+                        ></i>
+                        {{ getCar(activeReservations[0].rc_car).c_brand }}
+                        {{ getCar(activeReservations[0].rc_car).c_model }}
                       </p>
                       <p class="card-text">
-                        <i class = "fa fa-car-on" style = "margin-right: 5px;"></i>
-                        {{ getCar(reservations[0].r_carid).c_brand }}
-                        {{ getCar(reservations[0].r_carid).c_model }}
-                      </p>
-                      <p class="card-text">
-                        <i class = "fa-solid fa-calendar-days" style = "margin-right: 5px;"></i>
+                        <i
+                          class="fa-solid fa-calendar-days"
+                          style="margin-right: 10px;color:orangered;"
+                        ></i>
                         {{
                           formatDate(
-                            reservations[0].rt_timeframe
-                              .t_dayfrom
+                            activeReservations[0].rt_timeframe.t_dayfrom
                           )
                         }}
                         -
                         {{
                           formatDate(
-                            reservations[0].rt_timeframe
-                              .t_dayuntil
+                            activeReservations[0].rt_timeframe.t_dayuntil
                           )
                         }}
                       </p>
                       <p class="card-text">
-                        <i class = "fa-solid fa-clock" style = "margin-right: 5px;"></i>
+                        <i
+                          class="fa-solid fa-clock"
+                          style="margin-right: 10px;color:orangered;"
+                        ></i>
                         {{
                           formatTime(
-                            reservations[0].rt_timeframe
-                              .t_timefrom
+                            activeReservations[0].rt_timeframe.t_timefrom
                           )
                         }}
                         -
                         {{
                           formatTime(
-                            reservations[0].rt_timeframe
-                              .t_timeuntil
+                            activeReservations[0].rt_timeframe.t_timeuntil
                           )
                         }}
+                      </p>
+                      <p></p>
+                      <p class="card-text">
+                        <i
+                          class="fa fa-money-bill-wave"
+                          style="margin-right:10px;color:orangered;"
+                        ></i>
+                        <span class="badge badge-success badge-pill">
+                          Bezahlt
+                        </span>
                       </p>
                       <base-button tag="a" href="#" type="warning" class="mt-4">
-                        Mehr Anzeigen
+                        Alle Anzeigen
                       </base-button>
                     </div>
                     <div v-else>
@@ -226,29 +298,13 @@
           </div>
         </div>
       </section>
-      <!-- SVG separator -->
-      <!-- <div class="separator separator-bottom separator-skew">
-          <svg
-            x="0"
-            y="0"
-            viewBox="0 0 2560 100"
-            preserveAspectRatio="none"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              class="fill-white"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div> -->
     </div>
   </div>
 </template>
 
 <script>
 import { api } from "../apiRequest.js";
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   data() {
@@ -257,11 +313,13 @@ export default {
       username: null,
       dataFromDashboard: null,
       parkingSpots: [],
+      activeParkingSpots: [],
       reservations: [],
+      activeReservations: [],
       cars: [],
     };
   },
-  created() {
+  mounted() {
     this.getUser();
     this.getUserParkingSpots();
     this.getUserReservations();
@@ -283,8 +341,9 @@ export default {
     },
     async getUserParkingSpots() {
       await api("http://localhost:3000/parkingspots/getParkingspots")
-        .then((response) => {
+        .then(async (response) => {
           this.parkingSpots = response.data.content;
+          await this.getActiveParkingSpots();
         })
         .catch((error) => {
           console.log(error);
@@ -292,9 +351,9 @@ export default {
     },
     async getUserReservations() {
       await api("http://localhost:3000/parkingspots/getReservations")
-        .then((response) => {
+        .then(async (response) => {
           this.reservations = response.data.content;
-          console.log(this.reservations[0].rt_timeframe);
+          await this.getActiveReservations();
         })
         .catch((error) => {
           console.log(error);
@@ -309,6 +368,16 @@ export default {
           console.log(error);
         });
     },
+    async getActiveParkingSpots() {
+      this.activeParkingSpots = this.parkingSpots.filter(
+        (parkingSpot) => parkingSpot.p_status === "active"
+      );
+    },
+    async getActiveReservations() {
+      this.activeReservations = this.reservations.filter(
+        (reservation) => reservation.r_cancelled === false
+      );
+    },
     formatTime(time) {
       return moment()
         .startOf("day")
@@ -319,7 +388,8 @@ export default {
       return moment(date.toString(), "YYYYMMDD").format("DD.MM.YYYY");
     },
     getCar(carId) {
-      return this.cars.find((car) => car.c_id === carId);
+      let car = this.cars.find((c) => c._id === carId);
+      return car;
     },
   },
 };

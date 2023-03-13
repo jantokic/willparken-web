@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+      <!-- <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
         <base-dropdown class="nav-item" menu-classes="dropdown-menu-xl">
           <a
             slot="title"
@@ -86,7 +86,7 @@
             >Register</router-link
           >
         </base-dropdown>
-      </ul>
+      </ul> -->
       <ul class="navbar-nav align-items-lg-center ml-lg-auto">
         <li class="nav-item">
           <a
