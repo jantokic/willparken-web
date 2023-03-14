@@ -15,8 +15,13 @@ import Vue from 'vue'
 import Vuetify from './plugins/vuetify'
 import VueCookie from 'vue-cookie'
 import AppHeader from './layout/AppHeader.vue'
+import Modal from './components/Modal.vue'
+import BaseDropdown from './components/BaseDropdown.vue'
 
 Vue.component('app-header', AppHeader)
+Vue.component('modal', Modal) 
+Vue.component('base-dropdown', BaseDropdown)
+
 Vue.use(Vuetify)
 Vue.use(VueCookie)
 
