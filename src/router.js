@@ -14,7 +14,7 @@ Vue.use(Router);
 export default new Router({
   linkExactActiveClass: "active",
   routes: [
-    {
+    /*{ 
       path: "/",
       name: "landing",
       components: {
@@ -22,7 +22,17 @@ export default new Router({
         default: Landing,
         footer: AppFooter
       }
+    }, */
+    {
+      path: "/",
+      name: "login",
+      components: {
+        header: AppHeader,
+        default: Login,
+        footer: AppFooter
+      }
     },
+
     {
       path: "/components",
       name: "components",
@@ -30,7 +40,7 @@ export default new Router({
         header: AppHeader,
         default: Components,
         footer: AppFooter
-    }
+      }
     },
     {
       path: "/dashboard",
@@ -69,7 +79,10 @@ export default new Router({
         header: AppHeader,
         default: Profile,
         footer: AppFooter
-      }
+      },
+      /* props: {
+        header: true // enable passing props to header component
+      } */
     }
   ],
   scrollBehavior: to => {

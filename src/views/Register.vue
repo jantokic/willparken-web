@@ -169,7 +169,10 @@ export default {
           console.log(response);
 
           // Redirect to dashboard page
-          this.$router.push({ name: "dashboard" });
+          // Add delay before redirecting to dashboard
+          setTimeout(() => {
+            this.$router.push({ name: "dashboard" });
+          }, 500); // delay for half a second
         })
         .catch((error) => {
           // handle error
