@@ -36,15 +36,18 @@
                 </base-button>
               </div>
             </template> -->
+          <!--   <base-alert :visbility="true" :type="alert.type">
+                {{ alert.text }}
+              </base-alert> -->
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Sign up with credentials</small>
+                <small>Mit Benutzerdaten registrieren</small>
               </div>
               <form role="form">
                 <base-input
                   alternative
                   class="mb-3"
-                  placeholder="Username"
+                  placeholder="Benuztername"
                   addon-left-icon="ni ni-hat-3"
                   v-model="username"
                   :error="usernameError"
@@ -57,7 +60,7 @@
                     <base-input
                       alternative
                       class="mb-3"
-                      placeholder="First Name"
+                      placeholder="Vorname"
                       addon-left-icon="ni ni-single-02"
                       v-model="firstName"
                       :required="true"
@@ -67,7 +70,7 @@
                     <base-input
                       alternative
                       class="mb-3"
-                      placeholder="Last Name"
+                      placeholder="Nachname"
                       v-model="lastName"
                       :required="true"
                     ></base-input>
@@ -84,33 +87,21 @@
                 <base-input
                   alternative
                   type="password"
-                  placeholder="Password"
+                  placeholder="Passwort"
                   addon-left-icon="ni ni-lock-circle-open"
                   v-model="password"
                   :required="true"
                 ></base-input>
-                <div class="text-muted font-italic">
-                  <small>
-                    password strength:
-                    <span class="text-success font-weight-700">strong</span>
-                  </small>
-                </div>
-                <base-checkbox v-model="agreePrivacyPolicy">
-                  <span> I agree with the <a href="#">Privacy Policy</a> </span>
-                </base-checkbox>
+
                 <div class="text-center">
                   <base-button
                     type="primary"
                     class="my-4"
                     @click="createUser"
-                    :disabled="!agreePrivacyPolicy"
-                    >Create account</base-button
+                    >Registrieren</base-button
                   >
                 </div>
               </form>
-              <base-alert :visbility="true" :type="alert.type">
-                {{ alert.text }}
-              </base-alert>
             </template>
           </card>
         </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header :dataFromDashboard="dataFromDashboard"></app-header>
+    <app-header :dataToHeader="dataToHeader"></app-header>
     <!-- ADD PARKINGSPOT -->
     <modal
       :show.sync="modals.addParkingSpot"
@@ -10,11 +10,11 @@
       <card
         type="secondary"
         shadow
-        header-classes="bg-white pb-5"
+        header-classes="bg-white"
         body-classes="px-lg-5 py-lg-5"
         class="border-0"
       >
-        <template>
+        <template slot="header">
           <h4 v-if="!alert.visible" class="text-muted text-center mb-3">
             Parkplatz erstellen
           </h4>
@@ -212,7 +212,7 @@
                 <base-input
                   alternative
                   type="text"
-                  placeholder="Preis pro Stunde"
+                  placeholder="Preis / Stunde"
                   addon-left-icon="fa fa-euro-sign"
                   required
                   v-model="newParkingSpot.p_priceperhour"
@@ -223,7 +223,7 @@
                 <base-input
                   alternative
                   type="text"
-                  placeholder="P-Nr (otpional)"
+                  placeholder="Nr (otpional)"
                   addon-left-icon="fa fa-parking"
                   v-model="newParkingSpot.p_number"
                 />
@@ -254,15 +254,21 @@
           </form>
         </div>
         <template slot="footer">
-          <base-button type="success" class="my-4" @click="addNewParkingSpot()"
+          <div class="row">
+          <base-button type="success" class="my-2" @click="addNewParkingSpot()"
             >Speichern</base-button
           >
           <base-button
             type="secondary"
-            class="ml-auto"
+            class="my-2"
             @click="modals.addParkingSpot = false"
             >Abbrechen</base-button
           >
+
+          <base-button type="danger" class="ml-auto my-2"
+            >Inaktiv Setzen</base-button
+          >
+          </div>
         </template>
       </card>
     </modal>
@@ -344,9 +350,14 @@
     <div class="position-relative">
       <!-- shape Hero -->
       <section class="section-shaped my-0">
-        <div class="shape shape-style-1 shape-dark shape-skew">
+        <div class="shape shape-style-1 shape-primary shape-skew">
           <!-- photo of public/img/theme/cock.png-->
-          <img src="../../public/img/theme/cock3.png">
+          <img
+            class="rounded shadow"
+            data-src="../../public/img/theme/cock3.png"
+            src="../../public/img/theme/cock3.png"
+            lazy="loaded"
+          />
           <span></span>
           <span></span>
           <span></span>
@@ -356,18 +367,14 @@
           <span></span>
           <span></span>
           <span></span>
-
         </div>
         <div class="container shape-container d-flex">
           <div class="col px-0">
             <div class="row">
               <div class="col-lg">
-                <h1 class="display-3  text-white">
-                  Willkommen, {{ this.firstname + " " + this.lastname }}!
+                <h1 class="display-3 text-white">
+                  Willkommen, {{ this.firstname + " " + this.lastname }}
                 </h1>
-                <p class="lead  text-white">
-                  Ihr Privater Bereich für Parkplätze, Autos und Reservierungen.
-                </p>
               </div>
             </div>
           </div>
@@ -484,7 +491,11 @@
                         Sie haben noch keine Parkplätze erstellt. Fangen Sie
                         jetzt an!
                       </p>
-                      <base-button @click="modals.addParkingSpot=true" type="primary" class="mt-4">
+                      <base-button
+                        @click="modals.addParkingSpot = true"
+                        type="primary"
+                        class="mt-4"
+                      >
                         Parkplatz erstellen
                       </base-button>
                     </div>
@@ -580,7 +591,11 @@
                         Sie haben zurzeit keinen Parpklatz reserviert. Fangen
                         Sie jetzt an!
                       </p>
-                      <base-button @click="modals.addReservation = true" type="warning" class="mt-4">
+                      <base-button
+                        @click="modals.addReservation = true"
+                        type="warning"
+                        class="mt-4"
+                      >
                         Parkplatz reservieren
                       </base-button>
                     </div>
@@ -711,9 +726,9 @@ export default {
     return {
       user: null,
       username: null,
-      firstname:null,
-      lastname:null,
-      dataFromDashboard: null,
+      firstname: null,
+      lastname: null,
+      dataToHeader: null,
       parkingSpots: [],
       activeParkingSpots: [],
       reservations: [],
@@ -883,12 +898,13 @@ export default {
           this.username = this.user.u_username;
           this.firstname = this.user.u_firstname;
           this.lastname = this.user.u_lastname;
+
+          //set dataFromashboard to username
+          this.dataToHeader = this.username;
         })
         .catch((error) => {
           console.log(error);
         });
-      //set dataFromashboard to username
-      this.dataFromDashboard = this.username;
     },
     async getUserParkingSpots() {
       await api("http://localhost:3000/parkingspots/getParkingspots")

@@ -38,13 +38,13 @@
             </template> -->
             <template>
               <div class="text-center text-muted mb-4">
-                <small>Sign in with credentials</small>
+                <small>Mit Benutzerdaten anmelden</small>
               </div>
               <form role="form">
                 <base-input
                   alternative
                   class="mb-3"
-                  placeholder="Username"
+                  placeholder="Benuztername"
                   addon-left-icon="ni ni-hat-3"
                   v-model="username"
                   :error="usernameError"
@@ -55,38 +55,35 @@
                 <base-input
                   alternative
                   type="password"
-                  placeholder="Password"
+                  placeholder="Passwort"
                   addon-left-icon="ni ni-lock-circle-open"
                   v-model="password"
                   @keyup.enter="loginUser"
                 >
                 </base-input>
-                <base-checkbox>
+                <!-- <base-checkbox>
                   Remember me
-                </base-checkbox>
-                <div class="text-center">
+                </base-checkbox> -->
+                <div class="row">
+                <div class="text-center col">
                   <base-button type="primary" class="my-4" @click="loginUser"
-                    >Sign In</base-button
+                    >Anmelden</base-button
                   >
                 </div>
+                <div class="text-center col">
+                  <a href="#/register">
+                  <base-button type="secondary" class="my-4" 
+                    >Registrieren</base-button
+                  >
+                </a>
+                </div>
+              </div>
               </form>
               <base-alert :visbility="true" :type="alert.type">
                 {{ alert.text }}
               </base-alert>
             </template>
           </card>
-          <div class="row mt-3">
-            <div class="col-6">
-              <a href="#" class="text-light">
-                <small>Forgot password?</small>
-              </a>
-            </div>
-            <div class="col-6 text-right">
-              <a href="#/register" class="text-light">
-                <small>Create new account</small>
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
