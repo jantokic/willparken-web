@@ -1,52 +1,53 @@
 <template>
-  <div>
-    <div class="position-relative">
-      <!-- shape Hero -->
-      <section class="section-shaped my-0">
-        <div class="shape shape-style-1 shape-primary shape-skew">
-          <!-- photo of public/img/theme/cock.png-->
-          <img
-            class="rounded shadow"
-            data-src="../../public/img/theme/cock3.png"
-            src="../../public/img/theme/cock3.png"
-            lazy="loaded"
-          />
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div class="container shape-container d-flex">
-          <div class="col px-0">
-            <div class="row">
-              <div class="col-lg">
-                <h1 class="display-3 text-white">
-                  Willkommen, {{ this.firstname + " " + this.lastname }}
-                </h1>
+    <div>
+      <app-header :dataToHeader="dataToHeader"></app-header>
+      <div class="position-relative">
+        <!-- shape Hero -->
+        <section class="section-shaped my-0">
+          <div class="shape shape-style-1 shape-primary shape-skew">
+            <!-- photo of public/img/theme/cock.png-->
+            <img
+              class="rounded shadow"
+              data-src="../../public/img/theme/cock3.png"
+              src="../../public/img/theme/cock3.png"
+              lazy="loaded"
+            />
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="container shape-container d-flex">
+            <div class="col px-0">
+              <div class="row">
+                <div class="col-lg">
+                  <h1 class="display-3 text-white">
+                    Willkommen, {{ this.firstname + " " + this.lastname }}
+                  </h1>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section class="section section-lg pt-sm-0 mt--200">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-12">
-              <div class="row row-grid">
-                <parking-spots-list :activeParkingSpots="activeParkingSpots"/>
+        </section>
+        <section class="section section-lg pt-sm-0 mt--200">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-lg-12">
+                <div class="row row-grid">
+                  <reservation-list :cars="cars" :active-reservations="activeReservations"/>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
-  </div>
-</template>
+  </template>
 
 <script>
 import { api } from "../apiRequest.js";
@@ -65,9 +66,7 @@ export default {
       lastname: null,
       dataToHeader: null,
       reservations: [],
-      parkingSpots: [],
       activeReservations: [],
-      activeParkingSpots: [],
       cars: [],
       modals: {
         deleteReservation: false,
@@ -76,7 +75,6 @@ export default {
   },
   mounted() {
     this.getUser();
-    this.getUserParkingSpots();
     this.getUserReservations();
     this.getUserCars();
   },
@@ -92,16 +90,6 @@ export default {
 
           //set dataFromashboard to username
           this.dataToHeader = this.username;
-        })
-        .catch((error) => {
-          
-        });
-    },
-    async getUserParkingSpots() {
-      await api("http://localhost:3000/parkingspots/getParkingspots")
-        .then(async (response) => {
-          this.parkingSpots = response.data.content;
-          await this.getActiveParkingSpots();
         })
         .catch((error) => {
           
@@ -125,11 +113,6 @@ export default {
         .catch((error) => {
           
         });
-    },
-    async getActiveParkingSpots() {
-      this.activeParkingSpots = this.parkingSpots.filter(
-        (parkingSpot) => parkingSpot.p_status === "active"
-      );
     },
     async getActiveReservations() {
       this.activeReservations = this.reservations.filter(

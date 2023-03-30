@@ -106,11 +106,25 @@
               >
                 <div class="card-profile-actions py-4 mt-lg-0">
                   <base-button
-                    style="background-color:purple;"
+                  type="primary"
                     size="md"
                     @click="modals.editProfile = true"
-                    class="mr-4"
-                    >Profil bearbeiten</base-button
+                    icon="fa-solid fa-circle-dollar-to-slot"
+                    ></base-button
+                  >
+                  <base-button
+                  type="primary"
+                    size="md"
+                    @click="modals.editProfile = true"
+                    icon="fa-solid fa-user-edit"
+                    ></base-button
+                  >
+                  <base-button
+                  type="primary"
+                    size="md"
+                    @click="logout()"
+                    icon="fa-solid fa-sign-out-alt"
+                    ></base-button
                   >
                 </div>
               </div>
@@ -139,8 +153,8 @@
               <h3>
                 {{ this.firstName + " " + this.lastName }}
               </h3>
-              <div class="h6 font-weight-300 mt">
-                {{ this.email }}
+              <div class="h5 font-weight-300 mt">
+                {{ this.email }} | <icon name="fa-solid fa-wallet" /> 51€
               </div>
             </div>
           </div>
@@ -216,7 +230,7 @@ export default {
     async getProfilePic() {
       const name = this.firstName + " " + this.lastName;
       const response = await axios.get(
-        `https://ui-avatars.com/api/?name=${name}&background=800080&color=fff&size=512`
+        `https://ui-avatars.com/api/?name=${name}&background=5e72e4&color=fff&size=512`
       );
       this.profileImage = response.config.url;
     },
@@ -238,7 +252,6 @@ export default {
           this.dataToHeader = this.username;
         })
         .catch((error) => {
-          console.log(error);
         });
       //set dataFromashboard to username
       this.dataFromDashboard = this.username;
@@ -250,7 +263,6 @@ export default {
           await this.getActiveParkingSpots();
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getUserReservations() {
@@ -260,7 +272,6 @@ export default {
           await this.getActiveReservations();
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getUserCars() {
@@ -269,7 +280,6 @@ export default {
           this.cars = response.data.content;
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getActiveParkingSpots() {

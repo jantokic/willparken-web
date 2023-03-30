@@ -1,6 +1,308 @@
 <template>
   <div>
     <app-header :dataToHeader="dataToHeader"></app-header>
+    <!-- Filter Parkingspot -->
+    <modal
+      :show.sync="modals.filterParkingSpot"
+      body-classes="p-0"
+      modal-classes="modal-dialog-centered modal-lg"
+    >
+      <card
+        type="secondary"
+        shadow
+        header-classes="bg-white"
+        body-classes="px-lg-5 py-lg-5"
+        class="border-0"
+      >
+        <template slot="header">
+          <h4 v-if="!alert.visible" class="text-muted text-center mb-3">
+            Parkplätze filtern
+          </h4>
+          <base-alert v-else :visbility="true" :type="alert.type">
+            {{ alert.text }}
+          </base-alert>
+        </template>
+        <div class="container ct-example-row">
+          <form role="form">
+            <div class="row">
+              <div class="col-3">
+                <!--Preis-->
+                <base-input
+                  alternative
+                  type="text"
+                  placeholder="Max. Preis"
+                  addon-left-icon="fa fa-euro-sign"
+                  required
+                  v-model="newParkingSpot.p_priceperhour"
+                />
+              </div>
+              <div class="col">
+                <base-checkbox v-model="tags.ladestation">
+                  Ladestation
+                </base-checkbox>
+                <base-checkbox v-model="tags.tor">
+                  Tor
+                </base-checkbox>
+              </div>
+              <div class="col">
+                <base-checkbox v-model="tags.kamera">
+                  Kamera
+                </base-checkbox>
+                <base-checkbox v-model="tags.garage">
+                  Garage
+                </base-checkbox>
+              </div>
+              <div class="col">
+                <base-checkbox v-model="tags.dach">
+                  Dach
+                </base-checkbox>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-9 flatpickr">
+                <base-input
+                  class="flatpickr"
+                  addon-left-icon="ni ni-calendar-grid-58"
+                >
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      allowInput: false,
+                      mode: 'range',
+                      dateFormat: 'd.m.Y',
+                      minDate: 'today',
+                      defaultDate: ['today', new Date().fp_incr(1)],
+                    }"
+                    class="form-control datepicker"
+                    v-model="daterange"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col flatpickr">
+                <base-input class="flatpickr" addon-left-icon="fa fa-clock">
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      enableTime: true,
+                      noCalendar: true,
+                      dateFormat: ' H:i',
+                      time_24hr: true,
+                      defaultHour: '12',
+                      defaultMinute: '0',
+                    }"
+                    placeholder=" Uhrzeit - von"
+                    class="form-control datepicker"
+                    v-model="newParkingSpot.pt_availability.t_timefrom"
+                    value="12:00"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+              <div class="col flatpickr">
+                <base-input class="flatpickr" addon-left-icon="fa fa-clock">
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      enableTime: true,
+                      noCalendar: true,
+                      dateFormat: ' H:i',
+                      time_24hr: true,
+                      defaultHour: '12',
+                      defaultMinute: '0',
+                    }"
+                    placeholder=" Uhrzeit - bis"
+                    class="form-control datepicker"
+                    v-model="newParkingSpot.pt_availability.t_timeuntil"
+                    value="12:00"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.monday">
+                  Mo
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.tuesday">
+                  Di
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.wednesday">
+                  Mi
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.thursday">
+                  Do
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.friday">
+                  Fr
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.saturday">
+                  Sa
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.sunday">
+                  So
+                </base-checkbox>
+              </div>
+            </div>
+          </form>
+        </div>
+        <template slot="footer">
+          <div class="row">
+            <base-button type="success" class="my-2" block
+              >Filter anwenden</base-button
+            >
+          </div>
+        </template>
+      </card>
+    </modal>
+
+    <!-- Search Parkingspot -->
+    <modal
+      :show.sync="modals.searchParkingSpot"
+      body-classes="p-0"
+      modal-classes="modal-dialog-centered modal-lg"
+    >
+      <card
+        type="secondary"
+        shadow
+        header-classes="bg-white"
+        body-classes="px-lg-5 py-lg-5"
+        class="border-0"
+      >
+        <template slot="header">
+          <h4 v-if="!alert.visible" class="text-muted text-center mb-3">
+            Parkplatz suchen
+          </h4>
+          <base-alert v-else :visbility="true" :type="alert.type">
+            {{ alert.text }}
+          </base-alert>
+        </template>
+        <div class="container ct-example-row">
+          <form role="form">
+            <div class="row">
+              <div class="col">
+                <!--Straße-->
+                <base-input
+                  alternative
+                  addon-left-icon="fa fa-road"
+                  type="text"
+                  placeholder="Straße"
+                  class="mb-3"
+                  v-model="newParkingSpot.pa_address.a_street"
+                />
+              </div>
+              <div class="col col-lg-2">
+                <!--Hausnummer-->
+                <base-input
+                  alternative
+                  type="text"
+                  placeholder="Nr"
+                  addon-left-icon="fa fa-house"
+                  v-model="newParkingSpot.pa_address.a_houseno"
+                  required
+                />
+              </div>
+              <div class="col col-lg-2">
+                <base-dropdown position="left">
+                  <base-button
+                    slot="title"
+                    type="secondary"
+                    class="dropdown-toggle"
+                  >
+                    <img :src="flagpath" />
+                  </base-button>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      @click="setCountry('Austria')"
+                    >
+                      <img
+                        src="https://demos.creative-tim.com/argon-design-system/assets/img/icons/flags/AT.png"
+                      />
+                      &nbsp; Österreich
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      @click="setCountry('Germany')"
+                    >
+                      <img
+                        src="https://demos.creative-tim.com/argon-design-system/assets/img/icons/flags/DE.png"
+                      />
+                      &nbsp; Deutschland
+                    </a>
+                  </li>
+                </base-dropdown>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <!--Postleitzahl-->
+                <base-input
+                  alternative
+                  type="text"
+                  placeholder="PLZ"
+                  addon-left-icon="ni ni-pin-3"
+                  v-model="newParkingSpot.pa_address.a_zip"
+                  required
+                />
+              </div>
+              <div class="col">
+                <!--Stadt-->
+                <base-input
+                  alternative
+                  type="text"
+                  placeholder="Stadt"
+                  addon-left-icon="fa fa-city"
+                  v-model="newParkingSpot.pa_address.a_city"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-10">
+                <base-button type="primary" block class="my-2"
+                  >Suchen</base-button
+                >
+              </div>
+              <div class="col-2">
+                <base-button
+                  type="secondary"
+                  class="my-2"
+                  icon="fa-solid fa-gear"
+                  @click="
+                    modals.filterParkingSpot = true;
+                    modals.searchParkingSpot = false;
+                  "
+                ></base-button>
+              </div>
+            </div>
+            <google-map></google-map>
+          </form>
+        </div>
+      </card>
+    </modal>
+
     <!-- ADD PARKINGSPOT -->
     <modal
       :show.sync="modals.addParkingSpot"
@@ -255,20 +557,172 @@
         </div>
         <template slot="footer">
           <div class="row">
-          <base-button type="success" class="my-2" @click="addNewParkingSpot()"
-            >Speichern</base-button
+            <base-button
+              type="success"
+              class="my-2"
+              @click="addNewParkingSpot()"
+              >Speichern</base-button
+            >
+            <base-button
+              type="secondary"
+              class="my-2"
+              @click="modals.addParkingSpot = false"
+              >Abbrechen</base-button
+            >
+
+            <base-button type="danger" class="ml-auto my-2"
+              >Inaktiv Setzen</base-button
+            >
+          </div>
+        </template>
+      </card>
+    </modal>
+
+    <!-- ADD RESERVATION-->
+    <modal
+      :show.sync="modals.addReservation"
+      body-classes="p-0"
+      modal-classes="modal-dialog-centered modal-lg"
+    >
+      <card
+        type="secondary"
+        shadow
+        header-classes="bg-white pb-5"
+        body-classes="px-lg-5 py-lg-5"
+        class="border-0"
+      >
+        <template>
+          <h4 v-if="!alert.visible" class="text-muted text-center mb-3">
+            Reservierung aufgeben
+          </h4>
+          <base-alert v-else :visbility="true" :type="alert.type">
+            {{ alert.text }}
+          </base-alert>
+        </template>
+        <div class="container ct-example-row">
+          <form role="form">
+            <div class="row">
+              <div class="col">
+                <!--Auto Auswahl-->
+                <base-input
+                  alternative
+                  type="text"
+                  placeholder="Auto"
+                  addon-left-icon="fa fa-car"
+                  required
+                />
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.monday">
+                  Mo
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.tuesday">
+                  Di
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.wednesday">
+                  Mi
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.thursday">
+                  Do
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.friday">
+                  Fr
+                </base-checkbox>
+                <base-checkbox v-model="weekdays.saturday">
+                  Sa
+                </base-checkbox>
+              </div>
+              <div class="col-1">
+                <base-checkbox v-model="weekdays.sunday">
+                  So
+                </base-checkbox>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6 flatpickr">
+                <base-input
+                  class="flatpickr"
+                  addon-left-icon="ni ni-calendar-grid-58"
+                >
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      allowInput: false,
+                      mode: 'range',
+                      dateFormat: 'd.m.Y',
+                      minDate: 'today',
+                      defaultDate: ['today', new Date().fp_incr(1)],
+                    }"
+                    class="form-control datepicker"
+                    v-model="daterange"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+              <div class="col flatpickr">
+                <base-input class="flatpickr" addon-left-icon="fa fa-clock">
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      enableTime: true,
+                      noCalendar: true,
+                      dateFormat: ' H:i',
+                      time_24hr: true,
+                      defaultHour: '12',
+                      defaultMinute: '0',
+                    }"
+                    placeholder=" Uhrzeit - von"
+                    class="form-control datepicker"
+                    v-model="newParkingSpot.pt_availability.t_timefrom"
+                    value="12:00"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+              <div class="col flatpickr">
+                <base-input class="flatpickr" addon-left-icon="fa fa-clock">
+                  <flatpickr
+                    slot-scope="{ focus, blur }"
+                    @on-open="focus"
+                    @on-close="blur"
+                    :config="{
+                      enableTime: true,
+                      noCalendar: true,
+                      dateFormat: ' H:i',
+                      time_24hr: true,
+                      defaultHour: '12',
+                      defaultMinute: '0',
+                    }"
+                    placeholder=" Uhrzeit - bis"
+                    class="form-control datepicker"
+                    v-model="newParkingSpot.pt_availability.t_timeuntil"
+                    value="12:00"
+                  >
+                  </flatpickr>
+                </base-input>
+              </div>
+            </div>
+          </form>
+        </div>
+        <template slot="footer">
+          <base-button type="success" class="my-4" @click="addNewCar()"
+            >Reservieren</base-button
           >
           <base-button
             type="secondary"
-            class="my-2"
-            @click="modals.addParkingSpot = false"
+            class="ml-auto"
+            @click="modals.addCar = false"
             >Abbrechen</base-button
           >
-
-          <base-button type="danger" class="ml-auto my-2"
-            >Inaktiv Setzen</base-button
-          >
-          </div>
         </template>
       </card>
     </modal>
@@ -519,7 +973,7 @@
                           <base-button
                             type="warning"
                             icon="fa fa-plus"
-                            @click="modals.addReservation = true"
+                            @click="modals.searchParkingSpot = true"
                           ></base-button>
                         </div>
                       </div>
@@ -582,7 +1036,7 @@
                           Bezahlt
                         </span>
                       </p>
-                      <base-button tag="a" href="#" type="warning" class="mt-4">
+                      <base-button tag="a" href="#/viewReservations" type="warning" class="mt-4">
                         Alle Anzeigen
                       </base-button>
                     </div>
@@ -706,9 +1160,11 @@ import moment from "moment";
 import flatpickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import { onMounted, ref } from "vue";
+import ParkingSpotsList from "../components/ParkingSpotsList.vue";
+import ReservationList from "../components/ReservationList.vue";
 
 export default {
-  components: { flatpickr },
+  components: { flatpickr, ParkingSpotsList, ReservationList },
   setup() {
     const streetRef = ref();
     onMounted(() => {
@@ -738,6 +1194,8 @@ export default {
         addParkingSpot: false,
         addCar: false,
         addReservation: false,
+        searchParkingSpot: false,
+        filterParkingSpot: false,
       },
       // Parkingspot model
       newParkingSpot: {
@@ -758,6 +1216,16 @@ export default {
           a_zip: 4600,
           a_city: "Wels",
           a_country: "Austria",
+        },
+      },
+      newReservation:{
+        rc_car: null,
+        rt_timeframe: {
+          t_weekday: [],
+          t_dayfrom: null,
+          t_dayuntil: null,
+          t_timefrom: null,
+          t_timeuntil: null,
         },
       },
       // Car model
@@ -861,7 +1329,6 @@ export default {
           this.alert.text =
             "Parkplatz konnte nicht erstellt werden. Bitte versuchen Sie es erneut.";
           this.alert.type = "danger";
-          console.log(error);
         });
     },
     async addNewCar() {
@@ -887,7 +1354,6 @@ export default {
           this.alert.text =
             "Auto konnte nicht erstellt werden. Bitte versuchen Sie es erneut.";
           this.alert.type = "danger";
-          console.log(error);
         });
     },
     async getUser() {
@@ -903,7 +1369,6 @@ export default {
           this.dataToHeader = this.username;
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getUserParkingSpots() {
@@ -913,7 +1378,6 @@ export default {
           await this.getActiveParkingSpots();
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getUserReservations() {
@@ -923,7 +1387,6 @@ export default {
           await this.getActiveReservations();
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getUserCars() {
@@ -932,7 +1395,6 @@ export default {
           this.cars = response.data.content;
         })
         .catch((error) => {
-          console.log(error);
         });
     },
     async getActiveParkingSpots() {

@@ -125,7 +125,6 @@ export default {
 
         .then((response) => {
           // handle success
-          console.log(response);
 
           // Redirect to dashboard page
           // Add delay before redirecting to dashboard
@@ -135,7 +134,6 @@ export default {
         })
         .catch((error) => {
           // handle error
-          console.log(error);
 
           if (error.response.status === 400) {
             if (error.response.data.message === "Wrong username or password.") {
