@@ -91,7 +91,7 @@
 <script>
 import axios from "axios";
 import sha256 from "js-sha256";
-import api from "../apiRequest.js";
+import { api } from "../apiRequest.js";
 export default {
   data() {
     return {
