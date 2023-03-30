@@ -118,7 +118,7 @@ export default {
   methods: {
     async createUser() {
       const hashedPassword = sha256(this.password);
-      await api("http://localhost:3000/users/register", "POST", {
+      await api("https://seal-app-jk939.ondigitalocean.app/users/register", "POST", {
         u_username: this.username,
         u_email: this.email,
         u_password: hashedPassword,

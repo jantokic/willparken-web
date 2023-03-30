@@ -111,7 +111,7 @@ export default {
   methods: {
     async loginUser() {
       const hashedPassword = sha256(this.password);
-      await api("http://localhost:3000/users/login", "POST", {
+      await api("https://seal-app-jk939.ondigitalocean.app/users/login", "POST", {
         u_username: this.username,
         u_password: hashedPassword,
       })

@@ -1315,7 +1315,7 @@ export default {
 
       // Send the new parking spot object to the backend
       await api(
-        "http://localhost:3000/parkingspots/add",
+        "https://seal-app-jk939.ondigitalocean.app/parkingspots/add",
         "POST",
         this.newParkingSpot
       )
@@ -1343,7 +1343,7 @@ export default {
     },
     async addNewCar() {
       // Send the new car object to the backend
-      await api("http://localhost:3000/users/addCar", "POST", this.newCar)
+      await api("https://seal-app-jk939.ondigitalocean.app/users/addCar", "POST", this.newCar)
         .then(async (response) => {
           this.alert.visible = true;
           this.alert.text =
@@ -1368,7 +1368,7 @@ export default {
     },
     async getUser() {
       //get username from backend and set it to username
-      await api("http://localhost:3000/users/getUser")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getUser")
         .then((response) => {
           this.user = response.data.content;
           this.username = this.user.u_username;
@@ -1381,7 +1381,7 @@ export default {
         .catch((error) => {});
     },
     async getUserParkingSpots() {
-      await api("http://localhost:3000/parkingspots/getParkingspots")
+      await api("https://seal-app-jk939.ondigitalocean.app/parkingspots/getParkingspots")
         .then(async (response) => {
           this.parkingSpots = response.data.content;
           await this.getActiveParkingSpots();
@@ -1389,7 +1389,7 @@ export default {
         .catch((error) => {});
     },
     async getUserReservations() {
-      await api("http://localhost:3000/parkingspots/getReservations")
+      await api("https://seal-app-jk939.ondigitalocean.app/parkingspots/getReservations")
         .then(async (response) => {
           this.reservations = response.data.content;
           await this.getActiveReservations();
@@ -1397,7 +1397,7 @@ export default {
         .catch((error) => {});
     },
     async getUserCars() {
-      await api("http://localhost:3000/users/getCars")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getCars")
         .then((response) => {
           this.cars = response.data.content;
         })

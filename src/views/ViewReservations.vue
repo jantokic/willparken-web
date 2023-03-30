@@ -81,7 +81,7 @@ export default {
   methods: {
     async getUser() {
       //get username from backend and set it to username
-      await api("http://localhost:3000/users/getUser")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getUser")
         .then((response) => {
           this.user = response.data.content;
           this.username = this.user.u_username;
@@ -96,7 +96,7 @@ export default {
         });
     },
     async getUserReservations() {
-      await api("http://localhost:3000/parkingspots/getReservations")
+      await api("https://seal-app-jk939.ondigitalocean.app/parkingspots/getReservations")
         .then(async (response) => {
           this.reservations = response.data.content;
           await this.getActiveReservations();
@@ -106,7 +106,7 @@ export default {
         });
     },
     async getUserCars() {
-      await api("http://localhost:3000/users/getCars")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getCars")
         .then((response) => {
           this.cars = response.data.content;
         })

@@ -206,7 +206,7 @@ export default {
   async created() {},
   methods: {
     async updateUser() {
-      await api("http://localhost:3000/users/update", "patch", this.newUser)
+      await api("https://seal-app-jk939.ondigitalocean.app/users/update", "patch", this.newUser)
         .then((response) => {
           this.alert.visible = true;
           this.alert.text = "Benutzer erfolgreich aktualisiert. Seite wird neu geladen.";
@@ -236,7 +236,7 @@ export default {
     },
     async getUser() {
       //get username from backend and set it to username
-      await api("http://localhost:3000/users/getUser")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getUser")
         .then((response) => {
           this.user = response.data.content;
 
@@ -257,7 +257,7 @@ export default {
       this.dataFromDashboard = this.username;
     },
     async getUserParkingSpots() {
-      await api("http://localhost:3000/parkingspots/getParkingspots")
+      await api("https://seal-app-jk939.ondigitalocean.app/parkingspots/getParkingspots")
         .then(async (response) => {
           this.parkingSpots = response.data.content;
           await this.getActiveParkingSpots();
@@ -266,7 +266,7 @@ export default {
         });
     },
     async getUserReservations() {
-      await api("http://localhost:3000/parkingspots/getReservations")
+      await api("https://seal-app-jk939.ondigitalocean.app/parkingspots/getReservations")
         .then(async (response) => {
           this.reservations = response.data.content;
           await this.getActiveReservations();
@@ -275,7 +275,7 @@ export default {
         });
     },
     async getUserCars() {
-      await api("http://localhost:3000/users/getCars")
+      await api("https://seal-app-jk939.ondigitalocean.app/users/getCars")
         .then((response) => {
           this.cars = response.data.content;
         })
