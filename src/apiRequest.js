@@ -9,9 +9,8 @@ export const api = async (url, method = 'get', data = null, headers = {}) => {
     url: url,
     data: data,
     headers: headers,
-    withCredentials: true, // send session cookie with request
+    withCredentials: true
   };
-
   const response = await axios(config);
 
   const setCookie = response.headers['set-cookie'];
@@ -20,7 +19,6 @@ export const api = async (url, method = 'get', data = null, headers = {}) => {
   if (setCookie) {
     headers['Cookie'] = setCookie[0];
   }
-
-  console.log('api response', response);
+  
   return response;
 };
