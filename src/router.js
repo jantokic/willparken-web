@@ -7,7 +7,7 @@ import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
 import Profile from "./views/Profile.vue";
 import ViewReservations from "./views/ViewReservations.vue";
-import ViewParkingspots from "./views/ViewParkingspots.vue";
+import ViewParkingspots from "./views/ViewParkingSpots.vue";
 
 Vue.use(Router);
 
@@ -71,6 +71,18 @@ export default new Router({
       components: {
         //header: AppHeader,
         default: ViewReservations,
+        footer: AppFooter
+      },
+      props: {
+        header: true // enable passing props to header component
+      }
+    },
+    {
+      path: "/viewParkingspots",
+      name: "ViewParkingspots",
+      components: {
+        //header: AppHeader,
+        default: ViewParkingspots,
         footer: AppFooter
       },
       props: {

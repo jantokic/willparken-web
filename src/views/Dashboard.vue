@@ -936,7 +936,7 @@
                           Keine offenen Reservierungen
                         </span>
                       </p>
-                      <base-button tag="a" href="#" type="primary" class="mt-4">
+                      <base-button tag="a" href="#/viewParkingSpots" type="primary" class="mt-4">
                         Alle Anzeigen
                       </base-button>
                     </div>
