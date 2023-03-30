@@ -123,7 +123,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:3000/users/register",
+          "https://seal-app-jk939.ondigitalocean.app/users/register",
           {
             u_username: this.username,
             u_email: this.email,

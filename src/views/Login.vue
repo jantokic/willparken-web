@@ -115,7 +115,7 @@ export default {
       };
       axios
         .post(
-          "http://localhost:3000/users/login",
+          "https://seal-app-jk939.ondigitalocean.app/users/login",
           {
             u_username: this.username,
             u_password: hashedPassword,

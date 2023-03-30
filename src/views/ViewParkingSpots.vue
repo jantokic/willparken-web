@@ -94,7 +94,6 @@ export default {
           this.dataToHeader = this.username;
         })
         .catch((error) => {
-          
         });
     },
     async getUserParkingSpots() {
