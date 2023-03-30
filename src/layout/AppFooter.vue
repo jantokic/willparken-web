@@ -7,17 +7,17 @@
             <h4 class="mb-0 font-weight-light">Bleiben Sie mit uns in Verbindung über eine dieser Plattformen.</h4>
           </div>
           <div class="col-lg-6 text-lg-center btn-wrapper">
-            <a target="_blank" rel="noopener" href="https://twitter.com/WillParken"
+            <a target="_blank" rel="noopener" href="https://twitter.com/Jatesus"
                class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg" data-toggle="tooltip"
                data-original-title="Folgen Sie uns">
               <i class="fa fa-twitter"></i>
             </a>
-            <a target="_blank" rel="noopener" href="https://www.facebook.com/WillParken"
-               class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg" data-toggle="tooltip"
+            <a target="_blank" rel="noopener" href="https://www.instagram.com/jan.tokic"
+               class="btn btn-neutral btn-icon-only btn-instagram btn-round btn-lg" data-toggle="tooltip"
                data-original-title="Gefällt mir">
-              <i class="fa fa-facebook-square"></i>
+              <i class="fa-brands fa-instagram"></i>
             </a>
-            <a target="_blank" rel="noopener" href="https://github.com/WillParken"
+            <a target="_blank" rel="noopener" href="https://github.com/saidov-arb/will-parken-web"
                class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg" data-toggle="tooltip"
                data-original-title="Star auf Github">
               <i class="fa fa-github"></i>
@@ -29,22 +29,22 @@
           <div class="col-md-6">
             <div class="copyright">
               &copy; {{year}}
-              <a href="https://www.willparken.de" target="_blank" rel="noopener">WillParken</a>
+              <a href="https://www.willparken.live" target="_blank" rel="noopener">WillParken</a>
             </div>
           </div>
           <div class="col-md-6">
             <ul class="nav nav-footer justify-content-end">
               <li class="nav-item">
-                <a href="https://www.willparken.de" class="nav-link" target="_blank" rel="noopener">WillParken</a>
+                <a href="https://www.willparken.live" class="nav-link" target="_blank" rel="noopener">WillParken</a>
               </li>
               <li class="nav-item">
-                <a href="https://www.willparken.de/about" class="nav-link" target="_blank" rel="noopener">Über uns</a>
+                <a href="https://www.willparken.live/about" class="nav-link" target="_blank" rel="noopener">Über uns</a>
               </li>
               <li class="nav-item">
-                <a href="https://www.willparken.de/blog" class="nav-link" target="_blank" rel="noopener">Blog</a>
+                <a href="https://www.willparken.live/blog" class="nav-link" target="_blank" rel="noopener">Blog</a>
               </li>
               <li class="nav-item">
-                <a href="https://www.willparken.de/terms-of-use" class="nav-link" target="_blank" rel="noopener">Nutzungsbedingungen</a>
+                <a href="https://www.willparken.live/terms-of-use" class="nav-link" target="_blank" rel="noopener">Nutzungsbedingungen</a>
               </li>
             </ul>
           </div>
