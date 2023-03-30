@@ -91,7 +91,7 @@
 <script>
 import axios from "axios";
 import sha256 from "js-sha256";
-
+import api from "../apiRequest.js";
 export default {
   data() {
     return {
@@ -116,23 +116,15 @@ export default {
     },
   },
   methods: {
-    createUser() {
+    async createUser() {
       const hashedPassword = sha256(this.password);
-      axios.headerClasses = {
-        "Content-Type": "application/json",
-      };
-      axios
-        .post(
-          "https://seal-app-jk939.ondigitalocean.app/users/register",
-          {
-            u_username: this.username,
-            u_email: this.email,
-            u_password: hashedPassword,
-            u_firstname: this.firstName,
-            u_lastname: this.lastName,
-          },
-          { withCredentials: true }
-        )
+      await api("http://localhost:3000/users/register", "POST", {
+        u_username: this.username,
+        u_email: this.email,
+        u_password: hashedPassword,
+        u_firstname: this.firstName,
+        u_lastname: this.lastName,
+      })
         .then((response) => {
           // handle success
 

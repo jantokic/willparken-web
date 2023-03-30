@@ -65,19 +65,19 @@
                   Remember me
                 </base-checkbox> -->
                 <div class="row">
-                <div class="text-center col">
-                  <base-button type="primary" class="my-4" @click="loginUser"
-                    >Anmelden</base-button
-                  >
+                  <div class="text-center col">
+                    <base-button type="primary" class="my-4" @click="loginUser"
+                      >Anmelden</base-button
+                    >
+                  </div>
+                  <div class="text-center col">
+                    <a href="#/register">
+                      <base-button type="secondary" class="my-4"
+                        >Registrieren</base-button
+                      >
+                    </a>
+                  </div>
                 </div>
-                <div class="text-center col">
-                  <a href="#/register">
-                  <base-button type="secondary" class="my-4" 
-                    >Registrieren</base-button
-                  >
-                </a>
-                </div>
-              </div>
               </form>
               <base-alert :visbility="true" :type="alert.type">
                 {{ alert.text }}
@@ -108,21 +108,12 @@ export default {
     };
   },
   methods: {
-    loginUser() {
+    async loginUser() {
       const hashedPassword = sha256(this.password);
-      axios.headerClasses = {
-        "Content-Type": "application/json",
-      };
-      axios
-        .post(
-          "https://seal-app-jk939.ondigitalocean.app/users/login",
-          {
-            u_username: this.username,
-            u_password: hashedPassword,
-          },
-          { withCredentials: true }
-        )
-
+      await api("http://localhost:3000/users/login", "POST", {
+        u_username: this.username,
+        u_password: hashedPassword,
+      })
         .then((response) => {
           // handle success
 
