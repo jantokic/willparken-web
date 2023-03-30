@@ -21,5 +21,6 @@ export const api = async (url, method = 'get', data = null, headers = {}) => {
     headers['Cookie'] = setCookie[0];
   }
 
+  console.log('api response', response);
   return response;
 };
