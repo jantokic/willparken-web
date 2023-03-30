@@ -20,25 +20,6 @@
             body-classes="px-lg-5 py-lg-5"
             class="border-0"
           >
-            <!-- <template>
-              <div class="text-muted text-center mb-3">
-                <small>Sign in with</small>
-              </div>
-              <div class="btn-wrapper text-center">
-                <base-button type="neutral">
-                  <img slot="icon" src="img/icons/common/github.svg" />
-                  Github
-                </base-button>
-
-                <base-button type="neutral">
-                  <img slot="icon" src="img/icons/common/google.svg" />
-                  Google
-                </base-button>
-              </div>
-            </template> -->
-          <!--   <base-alert :visbility="true" :type="alert.type">
-                {{ alert.text }}
-              </base-alert> -->
             <template>
               <div class="text-center text-muted mb-4">
                 <small>Mit Benutzerdaten registrieren</small>
@@ -94,10 +75,7 @@
                 ></base-input>
 
                 <div class="text-center">
-                  <base-button
-                    type="primary"
-                    class="my-4"
-                    @click="createUser"
+                  <base-button type="primary" class="my-4" @click="createUser"
                     >Registrieren</base-button
                   >
                 </div>
@@ -157,7 +135,6 @@ export default {
         )
         .then((response) => {
           // handle success
-          console.log(response);
 
           // Redirect to dashboard page
           // Add delay before redirecting to dashboard
@@ -167,7 +144,6 @@ export default {
         })
         .catch((error) => {
           // handle error
-          console.log(error);
 
           if (error.response.status === 400) {
             if (error.response.data.message === "Username already exists.") {

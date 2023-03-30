@@ -19,6 +19,7 @@ import Modal from './components/Modal.vue'
 import BaseDropdown from './components/BaseDropdown.vue'
 import GoogleMap from './components/GMaps/GoogleMap.vue'
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import ParkingSpotsList from './components/ParkingSpotsList.vue'
 
 Vue.component('app-header', AppHeader)
 Vue.component('modal', Modal) 
