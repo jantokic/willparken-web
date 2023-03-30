@@ -936,7 +936,12 @@
                           Keine offenen Reservierungen
                         </span>
                       </p>
-                      <base-button tag="a" href="#/viewParkingSpots" type="primary" class="mt-4">
+                      <base-button
+                        tag="a"
+                        href="#/viewParkingSpots"
+                        type="primary"
+                        class="mt-4"
+                      >
                         Alle Anzeigen
                       </base-button>
                     </div>
@@ -1036,7 +1041,12 @@
                           Bezahlt
                         </span>
                       </p>
-                      <base-button tag="a" href="#/viewReservations" type="warning" class="mt-4">
+                      <base-button
+                        tag="a"
+                        href="#/viewReservations"
+                        type="warning"
+                        class="mt-4"
+                      >
                         Alle Anzeigen
                       </base-button>
                     </div>
@@ -1165,7 +1175,7 @@ import ReservationList from "../components/ReservationList.vue";
 
 export default {
   components: { flatpickr, ParkingSpotsList, ReservationList },
-  setup() {
+/*   setup() {
     const streetRef = ref();
     onMounted(() => {
       const autocomplete = new google.maps.places.Autocomplete(
@@ -1177,7 +1187,7 @@ export default {
       );
     });
     return { streetRef };
-  },
+  }, */
   data() {
     return {
       user: null,
@@ -1218,7 +1228,7 @@ export default {
           a_country: "Austria",
         },
       },
-      newReservation:{
+      newReservation: {
         rc_car: null,
         rt_timeframe: {
           t_weekday: [],
@@ -1368,8 +1378,7 @@ export default {
           //set dataFromashboard to username
           this.dataToHeader = this.username;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     },
     async getUserParkingSpots() {
       await api("http://localhost:3000/parkingspots/getParkingspots")
@@ -1377,8 +1386,7 @@ export default {
           this.parkingSpots = response.data.content;
           await this.getActiveParkingSpots();
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     },
     async getUserReservations() {
       await api("http://localhost:3000/parkingspots/getReservations")
@@ -1386,16 +1394,14 @@ export default {
           this.reservations = response.data.content;
           await this.getActiveReservations();
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     },
     async getUserCars() {
       await api("http://localhost:3000/users/getCars")
         .then((response) => {
           this.cars = response.data.content;
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     },
     async getActiveParkingSpots() {
       this.activeParkingSpots = this.parkingSpots.filter(
@@ -1476,6 +1482,11 @@ export default {
       this.newParkingSpot.pt_availability.t_timeuntil = await this.reverseTime(
         this.newParkingSpot.pt_availability.t_timeuntil
       );
+    },
+    created() {
+      if (this.$route.query.search === "true") {
+        this.showSearchModal = true;
+      }
     },
   },
 };

@@ -28,7 +28,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-icon" href="#">
+          <a
+            v-if="dataToHeader != 'Anmelden'"
+            class="nav-link nav-link-icon"
+            href="#/dashboard"
+            @click.prevent="openSearchModal"
+          >
             Parkplatz finden
           </a>
         </li>
@@ -83,6 +88,11 @@ export default {
     dataToHeader: {
       type: String,
       default: "Anmelden",
+    },
+  },
+  methods: {
+    openSearchModal() {
+      this.$router.push({ name: "dashboard", query: { search: "true" } });
     },
   },
 };
